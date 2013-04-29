@@ -398,8 +398,14 @@ void spin_wait_until_eq( const volatile T& location, const U value ) {
     while( location!=value ) backoff.pause();
 }
 
-#if (__TBB_USE_GENERIC_PART_WORD_CAS && ( __TBB_BIG_ENDIAN==-1))
-    #error generic implementation of part-word CAS was explicitly disabled for this configuration
+//slynen:
+//#if (__TBB_USE_GENERIC_PART_WORD_CAS && ( __TBB_BIG_ENDIAN==-1))
+//    #error generic implementation of part-word CAS was explicitly disabled for this configuration
+//#endif
+#if (__TBB_BIG_ENDIAN==-1)
+     #if ( __TBB_USE_GENERIC_PART_WORD_CAS)
+         #error generic implementation of part-word CAS was explicitly disabled for this configuration
+     #endif
 #endif
 
 #if (__TBB_BIG_ENDIAN!=-1)
